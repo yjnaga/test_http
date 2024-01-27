@@ -1,3 +1,7 @@
+# Python 3.9.6
+# pip 23.3.2
+#
+# pip install -r requirements.txt
 blinker==1.7.0
 click==8.1.7
 Flask==3.0.1

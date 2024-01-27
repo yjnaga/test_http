@@ -1,0 +1,26 @@
+{% extends "layout.html" %} 
+{% block user_head %}
+<style>
+body {
+	background: skyblue;
+}
+</style>
+<script><!--
+window.addEventListener('load', function() {
+	var msg_element = document.querySelector("#msg");
+	var msg = "";
+	if (window.opener) {
+		window.opener.close();
+		msg = "opener に対して window.opener.close() を行いました。";
+	} else {
+		msg = "opener が取得出来なかったため、 window.opener.close() は行いませんでした。";
+	}
+	if (msg_element) {
+		msg_element.innerHTML = "window.opener.close() を行いました。"
+	}
+});
+--></script>
+{% endblock %}
+{% block content %}
+<div id="msg"></div>
+{% endblock %}

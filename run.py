@@ -6,15 +6,15 @@ app = Flask(__name__)
 
 @app.route("/")
 def show_index():
-	return render_template("index.html")
+	return render_template("index.html", title="index.html")
 
 @app.route("/favicon.ico")
 def show_fav():
 	return ""
 
-@app.route("/<filename>")
+@app.route("/<filename>", methods=["GET", "POST"])
 def show_file(filename):
-	return render_template(filename)
+	return render_template(filename, title=filename)
 
 
 def main():

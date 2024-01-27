@@ -1,0 +1,28 @@
+{% extends "layout.html" %} 
+{% block user_head %}
+<style>
+body {
+	background: #ffaaaa;
+}
+</style>
+<script><!--
+window.addEventListener('load', function() {
+	document.test_form.submit();
+});
+--></script>
+{% endblock %}
+{% block content %}
+
+{% set target = '_blank' if request.args['target'] == 'blank' else '_self' %}
+<div>
+form の ターゲットは {{ target }} です。<br />
+submit されない場合はブラウザによりポップアップブロックされている可能性があります。<br />
+ポップアップブロックで<code>{{ request.host_url }}</code>を許可するか、以下のsubmit ボタンをクリックしてください。
+</div>
+<form name="test_form" method="post" action="submitted.html" target="{{ target }}" rel="opener">
+	<input type="hidden" name="p1" value="val1" />
+	<input type="hidden" name="p2" value="val2" />
+	<input type="hidden" name="p3" value="val3" />
+	<input type="submit" value="submit" />
+</form>
+{% endblock %}

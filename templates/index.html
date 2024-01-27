@@ -1,1 +1,23 @@
-index
+{% extends "layout.html" %} 
+{% block user_head %}
+{% endblock %}
+{% block content %}
+
+<dl>
+<dt>この画面にsubmitページを表示した後、即 onload で submit</dt>
+	<dd><a href="submit.html?target=blank">submit する form を target="_blank" 指定</a>
+		<br />⇒ポップアップブロック、許可すればsubmitは行われるが、submitページは表示されたまま。</dd>
+	<dd><a href="submit.html?target=self">submit する form を target="_self" 指定</a>
+		<br />⇒window.close() で Scripts may close only the windows that were opened by them.</dd>
+<dt>target="_blank"のリンクでsubmitページを表示した後、即 onload で submit</dt>
+	<dd><a href="submit.html?target=blank" target="_blank">submit する form を target="_blank" 指定</a>
+		<br />⇒ポップアップブロック、許可すれば正しく動作する</dd>
+	<dd><a href="submit.html?target=self" target="_blank">submit する form を target="_self" 指定</a>
+		<br />⇒正しく動作する</dd>
+<dt>windows.open('_blank') で submitページを表示した後、即 onload で submit</dt>
+	<dd><a href="#" onclick="window.open('submit.html?target=blank', '_blank'); return false;">submit する form を target="_blank" 指定</a>
+		<br />⇒ポップアップブロック、許可すれば正しく動作する</dd>
+	<dd><a href="#" onclick="window.open('submit.html?target=self', '_blank'); return false;">submit する form を target="_self" 指定</a>
+		<br />⇒正しく動作する</dd>
+</dl>
+{% endblock %}

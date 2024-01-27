@@ -1,0 +1,64 @@
+<html lang="ja">
+<head>
+<title>{{ title }}</title>
+<style>
+	* {
+		margin-top: 0.2em;
+		margin-bottom: 0.2em;
+	}
+</style>
+<script><!--
+window.addEventListener('load', function() {
+	var browser_info = document.querySelector("#browser_info");
+	if (browser_info) {
+		const text = ""
+		+ `history.length  =${history.length}\n`
+		+ `location.href   =${location.href}\n`
+		+ `history.current =${history.current}\n`
+		+ `history.next    =${history.next}\n`
+		+ `history.previous=${history.previous}\n`
+		+ `history[0]=${history[0]}\n`
+		+ "";
+		browser_info.innerHTML = text;
+	}
+});
+--></script>
+{% block user_head %}
+{% endblock %}
+</head>
+<body>
+<div><input type="button" onclick="window.close(); return false;" value="window.close()" /></div>
+<div style="font-size: small;">
+	<a href="index.html">index.html</a> /
+	<a href="test.html">test.html</a> /
+	<a href="#" onclick="history.back(); return false;">histroy back</a> /
+	<a href="#" onclick="history.forward(); return false;">histroy forward</a> /
+</div>
+<h1>{{ title }}</h1>
+{% block content %}
+{% endblock %} 
+<hr />
+
+<h3>request</h3>
+<textarea cols="80" rows="14">
+method  ={{ request.method }}
+url     ={{ request.url }}
+host_url={{ request.host_url }}
+scheme  ={{ request.scheme }}
+host    ={{ request.host }}
+path    ={{ request.path }}
+query_string={{ request.query_string }}
+-- args --
+{% for key in request.args
+%}  {{ key }}={{ request.args[key] }}
+{% endfor
+%}-- form --
+{% for key in request.form
+%}  {{ key }}={{ request.form[key] }}
+{% endfor %}
+</textarea>
+<h3>browser</h3>
+<textarea cols="80" rows="14" id="browser_info">
+</textarea>
+</body>
+</html>
