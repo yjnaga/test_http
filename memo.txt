@@ -1,1 +1,166 @@
 pip freeze | tee requirements.txt
+
+
+
+
+
+"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -app="data:text/html,<html><head><title>aaa</title><script>window.open('http://yahoo.co.jp','_self');</script></head><body><h1>test</h1></body></html>"
+
+
+    MENUITEM "TEST4 ローカルファイルを表示して _self にsubmit", ID_TEST4
+    MENUITEM "TEST5 ローカルファイルを表示して _blank にsubmit", ID_TEST5
+
+
+#include <shellapi.h>
+#include <shlobj.h>
+#include <objbase.h>
+#include <shlwapi.h>
+
+
+void test1() {
+    LPCWSTR url = L"http://192.168.1.53:8000/submit.html?target=blank";
+    ShellExecute(
+        GetDesktopWindow(),
+        L"open",
+        url,
+        L"", // LPCTSTR lpParameters
+        L"", // LPCSTR lpDirectory
+        SW_SHOW);
+}
+void test2() {
+    LPCWSTR url = L"http://192.168.1.53:8000/submit.html?target=self";
+    ShellExecute(
+        GetDesktopWindow(),
+        L"open",
+        url,
+        L"", // LPCTSTR lpParameters
+        L"", // LPCSTR lpDirectory
+        SW_SHOW);
+}
+void test3() {
+    STARTUPINFO si{};
+    si.dwX = 1;
+    si.dwY = 1;
+    si.dwXSize = 400;
+    si.dwYSize = 200;
+    PROCESS_INFORMATION pi{};
+    si.cb = sizeof(si);
+    wchar_t lpCommandLine[] = L"\"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\" --app=http://192.168.1.53:8000/submit.html?target=blank";
+    if (CreateProcess(nullptr, lpCommandLine, nullptr, nullptr, false, 0, nullptr, nullptr, &si, &pi))
+    {
+        // 起動成功
+        //
+
+        // アプリケーションの終了まで待つ
+        // (待たずに処理を先に進める場合、WaitForSingleObjectとGetExitCodeProcessは不要)
+        WaitForSingleObject(pi.hProcess, INFINITE);
+
+        // アプリケーションの終了コードの取得
+        // (終了コードを使用しない場合は不要)
+        unsigned long exitCode;
+        GetExitCodeProcess(pi.hProcess, &exitCode);
+
+        // 終了コードが負の値になる場合もあるので、signedにキャストする
+        long ec = static_cast<long>(exitCode);
+
+        // ハンドルを閉じる
+        CloseHandle(pi.hProcess);
+        CloseHandle(pi.hThread);
+        MessageBox(NULL, (LPCWSTR)L"test3 成功", (LPCWSTR)L"msg", MB_DEFBUTTON2);
+    }
+    else
+    {
+        // 起動失敗
+        //
+        DWORD error = GetLastError();
+        MessageBox(NULL, (LPCWSTR)L"test3 失敗", (LPCWSTR)L"msg", MB_DEFBUTTON2);
+    }
+
+}
+void test4() {
+    STARTUPINFO si{};
+    si.dwX = 1;
+    si.dwY = 1;
+    si.dwXSize = 400;
+    si.dwYSize = 200;
+    PROCESS_INFORMATION pi{};
+    si.cb = sizeof(si);
+    wchar_t lpCommandLine[] = L"\"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\" file:///C:/Users/yuji/dev/vs/submit_self.html";
+
+    if (CreateProcess(nullptr, lpCommandLine, nullptr, nullptr, false, 0, nullptr, nullptr, &si, &pi))
+    {
+        // 起動成功
+        //
+
+        // アプリケーションの終了まで待つ
+        // (待たずに処理を先に進める場合、WaitForSingleObjectとGetExitCodeProcessは不要)
+        WaitForSingleObject(pi.hProcess, INFINITE);
+
+        // アプリケーションの終了コードの取得
+        // (終了コードを使用しない場合は不要)
+        unsigned long exitCode;
+        GetExitCodeProcess(pi.hProcess, &exitCode);
+
+        // 終了コードが負の値になる場合もあるので、signedにキャストする
+        long ec = static_cast<long>(exitCode);
+
+        // ハンドルを閉じる
+        CloseHandle(pi.hProcess);
+        CloseHandle(pi.hThread);
+        //MessageBox(NULL, (LPCWSTR)L"test3 成功", (LPCWSTR)L"msg", MB_DEFBUTTON2);
+    }
+    else
+    {
+        // 起動失敗
+        //
+        DWORD error = GetLastError();
+        MessageBox(NULL, (LPCWSTR)L"test3 失敗", (LPCWSTR)L"msg", MB_DEFBUTTON2);
+    }
+
+}
+void test5() {
+    STARTUPINFO si{};
+    si.dwX = 1;
+    si.dwY = 1;
+    si.dwXSize = 400;
+    si.dwYSize = 200;
+    PROCESS_INFORMATION pi{};
+    si.cb = sizeof(si);
+    wchar_t lpCommandLine[] = L"\"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\" file:///C:/Users/yuji/dev/vs/submit_blank.html";
+
+    if (CreateProcess(nullptr, lpCommandLine, nullptr, nullptr, false, 0, nullptr, nullptr, &si, &pi))
+    {
+        // 起動成功
+        //
+
+        // アプリケーションの終了まで待つ
+        // (待たずに処理を先に進める場合、WaitForSingleObjectとGetExitCodeProcessは不要)
+        WaitForSingleObject(pi.hProcess, INFINITE);
+
+        // アプリケーションの終了コードの取得
+        // (終了コードを使用しない場合は不要)
+        unsigned long exitCode;
+        GetExitCodeProcess(pi.hProcess, &exitCode);
+
+        // 終了コードが負の値になる場合もあるので、signedにキャストする
+        long ec = static_cast<long>(exitCode);
+
+        // ハンドルを閉じる
+        CloseHandle(pi.hProcess);
+        CloseHandle(pi.hThread);
+        //MessageBox(NULL, (LPCWSTR)L"test3 成功", (LPCWSTR)L"msg", MB_DEFBUTTON2);
+    }
+    else
+    {
+        // 起動失敗
+        //
+        DWORD error = GetLastError();
+        MessageBox(NULL, (LPCWSTR)L"test3 失敗", (LPCWSTR)L"msg", MB_DEFBUTTON2);
+    }
+
+
+}
+void test6() {
+    MessageBox(NULL, (LPCWSTR)L"未実装test6", (LPCWSTR)L"test", MB_DEFBUTTON2);
+
+}
