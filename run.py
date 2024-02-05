@@ -3,7 +3,6 @@ import os
 
 app = Flask(__name__)
 
-
 @app.route("/")
 def show_index():
 	return render_template("index.html", title="index.html")
